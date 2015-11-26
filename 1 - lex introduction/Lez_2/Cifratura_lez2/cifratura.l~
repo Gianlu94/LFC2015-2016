@@ -1,0 +1,15 @@
+%{
+//[a-zA-z]	{printf("%c - %c \n",yytext[0],(yytext[0]+3) % 26);}
+%}
+
+%%
+[a-z]		{printf("%c - %c \n",yytext[0],(((int)yytext[0]+3) % 26)
+[A-Z]		{printf("%c - %c \n",yytext[0],(((int)yytext[0]+3) % 26)
+.
+\n
+
+%%
+
+main(){
+	yylex();
+}
