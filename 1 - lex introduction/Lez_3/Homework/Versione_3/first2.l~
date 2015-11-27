@@ -1,0 +1,45 @@
+%{
+
+%}
+
+%x S1 S3 
+
+%%
+<INITIAL>[a-z]+ {if(yytext[0]=='a'){printf("a - first");BEGIN(S1);};}
+<S1>^[a-z] {switch(yytext[0]){
+		case 'b':printf("b - second\n"); break;
+		case 'c':printf("c - third\n"); break;
+		case 'd':printf("d - fourth\n"); break;
+		case 'e':printf("e - fifth\n"); break;
+		case 'f':printf("f - sixth\n"); break;
+		case 'g':printf("g - seventh\n"); break;
+		case 'h':printf("h - eighth\n"); break;
+		case 'i':printf("i - ninth\n"); break;
+		case 'j':printf("j - tenth\n"); break;
+		case 'k':printf("k - eleventh\n"); break;
+		case 'l':printf("l - twelfth\n"); break;
+		case 'm':printf("m - thirteenth\n"); break;
+		case 'n':printf("n - fourteenth\n"); break;
+		case 'o':printf("o - fifteenth\n"); break;
+		case 'p':printf("p - sixteenth\n"); break;
+		case 'q':printf("q - seventeenth\n"); break;
+		case 'r':printf("r - eighteenth\n"); break;
+		case 's':printf("s - nineteenth\n"); break;
+		case 't':printf("t - twentieth\n"); break;
+		case 'u':printf("u - twenty-first\n"); break;
+		case 'w':printf("w - twenty-second\n"); break;
+		case 'x':printf("x - twenty-third\n"); break;
+		case 'y':printf("y - twenty-fourth\n"); break;
+		case 'v':printf("v - twenty-fifth\n"); break;
+		case 'z':printf("z - twenty-sixth\n"); break;
+		default : break;};BEGIN(S3);}
+
+<S3>.|\n	{printf("****3");BEGIN(0);}
+.|\n|\t		{printf("****4");}
+
+%%
+
+int main(){
+	yylex();
+	return 0;
+}
