@@ -377,10 +377,10 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[17] =
+static yyconst flex_int16_t yy_accept[16] =
     {   0,
         0,    0,    5,    2,    3,    2,    0,    1,    0,    1,
-        0,    0,    0,    0,    0,    0
+        0,    0,    0,    0,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -422,28 +422,28 @@ static yyconst flex_int32_t yy_meta[5] =
 
 static yyconst flex_int16_t yy_base[18] =
     {   0,
-        0,    0,   20,   21,   21,    4,    0,   21,   16,   14,
-       13,   13,    8,   11,   11,   21,   12
+        0,    0,   18,   19,   19,    4,    0,   19,   14,   12,
+       11,   11,   10,    9,   19,   10,    8
     } ;
 
 static yyconst flex_int16_t yy_def[18] =
     {   0,
-       16,    1,   16,   16,   16,   16,    6,   16,    6,   17,
-       17,   11,   16,   13,   14,    0,   16
+       15,    1,   15,   15,   15,   15,    6,   15,    6,   16,
+       16,   11,   17,   17,    0,   15,   15
     } ;
 
-static yyconst flex_int16_t yy_nxt[26] =
+static yyconst flex_int16_t yy_nxt[24] =
     {   0,
         4,    5,    6,    4,    7,    7,    8,    9,   14,   14,
-        8,   15,   11,   10,   14,   13,   12,   12,   10,   16,
-        3,   16,   16,   16,   16
+       11,    8,    8,   13,   12,   12,   10,   15,    3,   15,
+       15,   15,   15
     } ;
 
-static yyconst flex_int16_t yy_chk[26] =
+static yyconst flex_int16_t yy_chk[24] =
     {   0,
-        1,    1,    1,    1,    6,    6,    6,    6,   13,   13,
-       13,   13,   17,   15,   14,   12,   11,   10,    9,    3,
-       16,   16,   16,   16,   16
+        1,    1,    1,    1,    6,    6,    6,    6,   17,   17,
+       16,   14,   13,   12,   11,   10,    9,    3,   15,   15,
+       15,   15,   15
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -464,7 +464,8 @@ char *yytext;
 #line 2 "stringa.l"
 	int count = 0;
 	//\"[^\"]*((\\\"[^\"]*\\\")|([^\"]*))[^\"]*\" count++;
-#line 468 "lex.yy.c"
+	//\"(\\\"[^\"]*\\\")*\" count++;
+#line 469 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -651,9 +652,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 7 "stringa.l"
+#line 8 "stringa.l"
 
-#line 657 "lex.yy.c"
+#line 658 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -706,13 +707,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 17 )
+				if ( yy_current_state >= 16 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 21 );
+		while ( yy_base[yy_current_state] != 19 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -739,26 +740,26 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 8 "stringa.l"
-count++;
+#line 9 "stringa.l"
+{printf("%s\n",yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "stringa.l"
+#line 10 "stringa.l"
 
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 10 "stringa.l"
+#line 11 "stringa.l"
 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "stringa.l"
+#line 12 "stringa.l"
 ECHO;
 	YY_BREAK
-#line 762 "lex.yy.c"
+#line 763 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1050,7 +1051,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 17 )
+			if ( yy_current_state >= 16 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1078,11 +1079,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 17 )
+		if ( yy_current_state >= 16 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 16);
+	yy_is_jam = (yy_current_state == 15);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1756,7 +1757,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 11 "stringa.l"
+#line 12 "stringa.l"
 
 
 
