@@ -1,0 +1,22 @@
+%{
+
+%}
+
+%s AA BB CC
+
+%%
+a	{ECHO;BEGIN(AA);}
+b	{ECHO;BEGIN(BB);}
+c	{ECHO;BEGIN(CC);}
+<AA>directory	printf("a first");
+<BB>directory	printf("b second");
+<CC>directory	printf("c third");
+.	ECHO;
+\n 	ECHO;
+
+%%
+
+int main(){
+	yylex();
+	return 0;
+}
