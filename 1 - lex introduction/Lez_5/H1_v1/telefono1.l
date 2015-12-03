@@ -1,5 +1,5 @@
 %{
-	char telefono [10];
+	char telefono [10]; 
 	int countT = 0;
 	int countN = 0;
 	int finish = 0;
@@ -9,8 +9,8 @@
 			telefono[i]='0';		
 		}
 		*/
-		char nuovo [10];
-		telefono = nuovo;	
+		//char nuovo [10];
+		//telefono = nuovo;	
 	}
 	int inizializza (int * c1, int * c2){
 		*c1 = 0;
