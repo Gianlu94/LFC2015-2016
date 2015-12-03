@@ -1,0 +1,77 @@
+%{
+	char telefono [10];
+	int countT = 0;
+	int countN = 0;
+	int finish = 0;
+	void riinitA(char * telefono){
+		/*int i;
+		for (i = 0; i < 10; i++){
+			telefono[i]='0';		
+		}
+		*/
+		char nuovo [10];
+		telefono = nuovo;	
+	}
+	int inizializza (int * c1, int * c2){
+		*c1 = 0;
+		*c2 = 0;	
+	}
+	int check1 (int c1,int c2){
+		if ((c1 > 8)||(c2 > 2))
+			return 1;
+		else
+			return 0;
+	}
+	int check2 (int c1,int c2){
+		if ((c1 == 7)&&((c2 == 0)||(c2==1)||(c2==2)))
+			return 0;
+		else 
+			return 1;
+	}
+%}
+
+%%
+[0-9]	{	
+			telefono[countN+countT]=yytext[0];
+			printf("N %d D %c telefono %s\n",countN+countT,yytext[0],telefono);
+			countN++;
+			if (check1(countN,countT)==1){
+				riinitA(telefono);
+				inizializza(&countT,&countN);
+				printf(" chiamatoN1");
+			}
+			else if (check2(countN,countT)==0){
+					printf("Telefono : %s\n",telefono);
+					riinitA(telefono);
+					inizializza(&countT,&countN);
+					printf(" chiamatoN2");
+			}
+			
+		}
+
+\-		{	int pos = countN+countT;
+			if ((pos != 0) && (pos!=9)){
+				telefono[pos]=yytext[0];
+				printf("T %d D %c telefono %s\n",countN+countT,yytext[0],telefono);
+				countT++;
+				if (check1(countN,countT)==1){
+					riinitA(telefono);
+					inizializza(&countT,&countN);
+					printf(" chiamatoT1");
+				}
+				else if (check2(countN,countT)==0){
+						printf("Telefono : %s\n",telefono);
+						riinitA(telefono);
+						inizializza(&countT,&countN);
+						printf(" chiamatoT2");
+				}
+			}
+		}
+.		{inizializza(&countT,&countN);riinitA(telefono);}
+\n		{inizializza(&countT,&countN);riinitA(telefono);}
+
+%%
+int main(){
+	yylex();
+	return 0;
+}
