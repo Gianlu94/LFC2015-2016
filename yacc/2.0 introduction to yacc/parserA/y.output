@@ -1,0 +1,60 @@
+   0  $accept : rhyme $end
+
+   1  rhyme : sound place
+
+   2  sound : DING DONG
+
+   3  place : DELL
+
+state 0
+	$accept : . rhyme $end  (0)
+
+	DING  shift 1
+	.  error
+
+	rhyme  goto 2
+	sound  goto 3
+
+
+state 1
+	sound : DING . DONG  (2)
+
+	DONG  shift 4
+	.  error
+
+
+state 2
+	$accept : rhyme . $end  (0)
+
+	$end  accept
+
+
+state 3
+	rhyme : sound . place  (1)
+
+	DELL  shift 5
+	.  error
+
+	place  goto 6
+
+
+state 4
+	sound : DING DONG .  (2)
+
+	.  reduce 2
+
+
+state 5
+	place : DELL .  (3)
+
+	.  reduce 3
+
+
+state 6
+	rhyme : sound place .  (1)
+
+	.  reduce 1
+
+
+5 terminals, 4 nonterminals
+4 grammar rules, 7 states

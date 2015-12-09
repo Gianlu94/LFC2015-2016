@@ -1,0 +1,78 @@
+   0  $accept : S $end
+
+   1  S : a
+   2    | A b C
+
+   3  A : a
+
+   4  C : A
+   5    | c
+
+state 0
+	$accept : . S $end  (0)
+
+	a  shift 1
+	.  error
+
+	S  goto 2
+	A  goto 3
+
+
+state 1
+	S : a .  (1)
+	A : a .  (3)
+
+	$end  reduce 1
+	b  reduce 3
+
+
+state 2
+	$accept : S . $end  (0)
+
+	$end  accept
+
+
+state 3
+	S : A . b C  (2)
+
+	b  shift 4
+	.  error
+
+
+state 4
+	S : A b . C  (2)
+
+	a  shift 5
+	c  shift 6
+	.  error
+
+	A  goto 7
+	C  goto 8
+
+
+state 5
+	A : a .  (3)
+
+	.  reduce 3
+
+
+state 6
+	C : c .  (5)
+
+	.  reduce 5
+
+
+state 7
+	C : A .  (4)
+
+	.  reduce 4
+
+
+state 8
+	S : A b C .  (2)
+
+	.  reduce 2
+
+
+5 terminals, 4 nonterminals
+6 grammar rules, 9 states

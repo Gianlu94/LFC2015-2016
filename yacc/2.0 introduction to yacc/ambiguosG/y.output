@@ -1,0 +1,52 @@
+   0  $accept : E $end
+
+   1  E : E '-' E
+   2    | "id"
+
+state 0
+	$accept : . E $end  (0)
+
+	"id"  shift 1
+	.  error
+
+	E  goto 2
+
+
+state 1
+	E : "id" .  (2)
+
+	.  reduce 2
+
+
+state 2
+	$accept : E . $end  (0)
+	E : E . '-' E  (1)
+
+	$end  accept
+	'-'  shift 3
+	.  error
+
+
+state 3
+	E : E '-' . E  (1)
+
+	"id"  shift 1
+	.  error
+
+	E  goto 4
+
+
+4: shift/reduce conflict (shift 3, reduce 1) on '-'
+state 4
+	E : E . '-' E  (1)
+	E : E '-' E .  (1)
+
+	'-'  shift 3
+	$end  reduce 1
+
+
+State 4 contains 1 shift/reduce conflict.
+
+
+4 terminals, 2 nonterminals
+3 grammar rules, 5 states

@@ -1,0 +1,26 @@
+digraph y {
+	edge [fontsize=10];
+	node [shape=box,fontsize=10];
+	orientation=landscape;
+	rankdir=LR;
+	/*
+	margin=0.2;
+	page="8.27,11.69"; // for A4 printing
+	ratio=auto;
+	*/
+
+	q0 [label="0:\l  $accept -> . rhyme $end\l  rhyme -> . sound place\l  sound -> . DING DONG\l"];
+	q1 [label="1:\l  sound -> DING . DONG\l"];
+	q2 [label="2:\l  $accept -> rhyme . $end\l"];
+	q3 [label="3:\l  rhyme -> sound . place\l  place -> . DELL\l"];
+	q4 [label="4:\l  sound -> DING DONG . { DELL }\l"];
+	q5 [label="5:\l  place -> DELL . { $end }\l"];
+	q6 [label="6:\l  rhyme -> sound place . { $end }\l"];
+
+	q0 -> q1 [label="DING"];
+	q0 -> q2 [label="rhyme"];
+	q0 -> q3 [label="sound"];
+	q1 -> q4 [label="DONG"];
+	q3 -> q5 [label="DELL"];
+	q3 -> q6 [label="place"];
+}
