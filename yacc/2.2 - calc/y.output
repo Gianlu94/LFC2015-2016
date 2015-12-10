@@ -1,0 +1,927 @@
+Grammatica
+
+    0 $accept: program $end
+
+    1 program: function
+
+    2 function: function stmt
+    3         | %empty
+
+    4 stmt: ';'
+    5     | expr ';'
+    6     | PRINT expr ';'
+    7     | VARIABLE '=' expr ';'
+    8     | WHILE '(' expr ')' stmt
+    9     | IF '(' expr ')' stmt
+   10     | IF '(' expr ')' stmt ELSE stmt
+   11     | '{' stmt_list '}'
+
+   12 stmt_list: stmt
+   13          | stmt_list stmt
+
+   14 expr: INTEGER
+   15     | VARIABLE
+   16     | '-' expr
+   17     | expr '+' expr
+   18     | expr '-' expr
+   19     | expr '*' expr
+   20     | expr '/' expr
+   21     | expr '<' expr
+   22     | expr '>' expr
+   23     | expr GE expr
+   24     | expr LE expr
+   25     | expr NE expr
+   26     | expr EQ expr
+   27     | '(' expr ')'
+
+
+Simboli terminali e regole in cui appaiono
+
+$end (0) 0
+'(' (40) 8 9 10 27
+')' (41) 8 9 10 27
+'*' (42) 19
+'+' (43) 17
+'-' (45) 16 18
+'/' (47) 20
+';' (59) 4 5 6 7
+'<' (60) 21
+'=' (61) 7
+'>' (62) 22
+'{' (123) 11
+'}' (125) 11
+error (256)
+INTEGER (258) 14
+VARIABLE (259) 7 15
+WHILE (260) 8
+IF (261) 9 10
+PRINT (262) 6
+IFX (263)
+ELSE (264) 10
+GE (265) 23
+LE (266) 24
+EQ (267) 26
+NE (268) 25
+UMINUS (269)
+
+
+Simboli nonterminali e regole in cui appaiono
+
+$accept (27)
+    nel primo membro: 0
+program (28)
+    nel primo membro: 1, nel secondo membro: 0
+function (29)
+    nel primo membro: 2 3, nel secondo membro: 1 2
+stmt (30)
+    nel primo membro: 4 5 6 7 8 9 10 11, nel secondo membro: 2 8 9
+    10 12 13
+stmt_list (31)
+    nel primo membro: 12 13, nel secondo membro: 11 13
+expr (32)
+    nel primo membro: 14 15 16 17 18 19 20 21 22 23 24 25 26 27, nel secondo membro:
+    5 6 7 8 9 10 16 17 18 19 20 21 22 23 24 25 26 27
+
+
+Stato 0
+
+    0 $accept: . program $end
+
+    $default  riduzione con la regola 3 (function)
+
+    program   prosecuzione allo stato 1
+    function  prosecuzione allo stato 2
+
+
+Stato 1
+
+    0 $accept: program . $end
+
+    $end  shift e prosecuzione allo stato 3
+
+
+Stato 2
+
+    1 program: function .
+    2 function: function . stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+
+    $default  riduzione con la regola 1 (program)
+
+    stmt  prosecuzione allo stato 13
+    expr  prosecuzione allo stato 14
+
+
+Stato 3
+
+    0 $accept: program $end .
+
+    $default  accetta
+
+
+Stato 4
+
+   14 expr: INTEGER .
+
+    $default  riduzione con la regola 14 (expr)
+
+
+Stato 5
+
+    7 stmt: VARIABLE . '=' expr ';'
+   15 expr: VARIABLE .
+
+    '='  shift e prosecuzione allo stato 15
+
+    $default  riduzione con la regola 15 (expr)
+
+
+Stato 6
+
+    8 stmt: WHILE . '(' expr ')' stmt
+
+    '('  shift e prosecuzione allo stato 16
+
+
+Stato 7
+
+    9 stmt: IF . '(' expr ')' stmt
+   10     | IF . '(' expr ')' stmt ELSE stmt
+
+    '('  shift e prosecuzione allo stato 17
+
+
+Stato 8
+
+    6 stmt: PRINT . expr ';'
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 19
+
+
+Stato 9
+
+   16 expr: '-' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 20
+
+
+Stato 10
+
+    4 stmt: ';' .
+
+    $default  riduzione con la regola 4 (stmt)
+
+
+Stato 11
+
+   27 expr: '(' . expr ')'
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 21
+
+
+Stato 12
+
+   11 stmt: '{' . stmt_list '}'
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+
+    stmt       prosecuzione allo stato 22
+    stmt_list  prosecuzione allo stato 23
+    expr       prosecuzione allo stato 14
+
+
+Stato 13
+
+    2 function: function stmt .
+
+    $default  riduzione con la regola 2 (function)
+
+
+Stato 14
+
+    5 stmt: expr . ';'
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ';'  shift e prosecuzione allo stato 34
+
+
+Stato 15
+
+    7 stmt: VARIABLE '=' . expr ';'
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 35
+
+
+Stato 16
+
+    8 stmt: WHILE '(' . expr ')' stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 36
+
+
+Stato 17
+
+    9 stmt: IF '(' . expr ')' stmt
+   10     | IF '(' . expr ')' stmt ELSE stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 37
+
+
+Stato 18
+
+   15 expr: VARIABLE .
+
+    $default  riduzione con la regola 15 (expr)
+
+
+Stato 19
+
+    6 stmt: PRINT expr . ';'
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ';'  shift e prosecuzione allo stato 38
+
+
+Stato 20
+
+   16 expr: '-' expr .
+   17     | expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    $default  riduzione con la regola 16 (expr)
+
+
+Stato 21
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+   27     | '(' expr . ')'
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ')'  shift e prosecuzione allo stato 39
+
+
+Stato 22
+
+   12 stmt_list: stmt .
+
+    $default  riduzione con la regola 12 (stmt_list)
+
+
+Stato 23
+
+   11 stmt: '{' stmt_list . '}'
+   13 stmt_list: stmt_list . stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+    '}'       shift e prosecuzione allo stato 40
+
+    stmt  prosecuzione allo stato 41
+    expr  prosecuzione allo stato 14
+
+
+Stato 24
+
+   23 expr: expr GE . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 42
+
+
+Stato 25
+
+   24 expr: expr LE . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 43
+
+
+Stato 26
+
+   26 expr: expr EQ . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 44
+
+
+Stato 27
+
+   25 expr: expr NE . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 45
+
+
+Stato 28
+
+   22 expr: expr '>' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 46
+
+
+Stato 29
+
+   21 expr: expr '<' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 47
+
+
+Stato 30
+
+   17 expr: expr '+' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 48
+
+
+Stato 31
+
+   18 expr: expr '-' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 49
+
+
+Stato 32
+
+   19 expr: expr '*' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 50
+
+
+Stato 33
+
+   20 expr: expr '/' . expr
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 18
+    '-'       shift e prosecuzione allo stato 9
+    '('       shift e prosecuzione allo stato 11
+
+    expr  prosecuzione allo stato 51
+
+
+Stato 34
+
+    5 stmt: expr ';' .
+
+    $default  riduzione con la regola 5 (stmt)
+
+
+Stato 35
+
+    7 stmt: VARIABLE '=' expr . ';'
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ';'  shift e prosecuzione allo stato 52
+
+
+Stato 36
+
+    8 stmt: WHILE '(' expr . ')' stmt
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ')'  shift e prosecuzione allo stato 53
+
+
+Stato 37
+
+    9 stmt: IF '(' expr . ')' stmt
+   10     | IF '(' expr . ')' stmt ELSE stmt
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    GE   shift e prosecuzione allo stato 24
+    LE   shift e prosecuzione allo stato 25
+    EQ   shift e prosecuzione allo stato 26
+    NE   shift e prosecuzione allo stato 27
+    '>'  shift e prosecuzione allo stato 28
+    '<'  shift e prosecuzione allo stato 29
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+    ')'  shift e prosecuzione allo stato 54
+
+
+Stato 38
+
+    6 stmt: PRINT expr ';' .
+
+    $default  riduzione con la regola 6 (stmt)
+
+
+Stato 39
+
+   27 expr: '(' expr ')' .
+
+    $default  riduzione con la regola 27 (expr)
+
+
+Stato 40
+
+   11 stmt: '{' stmt_list '}' .
+
+    $default  riduzione con la regola 11 (stmt)
+
+
+Stato 41
+
+   13 stmt_list: stmt_list stmt .
+
+    $default  riduzione con la regola 13 (stmt_list)
+
+
+Stato 42
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   23     | expr GE expr .
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 23 (expr)
+
+
+Stato 43
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   24     | expr LE expr .
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 24 (expr)
+
+
+Stato 44
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+   26     | expr EQ expr .
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 26 (expr)
+
+
+Stato 45
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   25     | expr NE expr .
+   26     | expr . EQ expr
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 25 (expr)
+
+
+Stato 46
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   22     | expr '>' expr .
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 22 (expr)
+
+
+Stato 47
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   21     | expr '<' expr .
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '+'  shift e prosecuzione allo stato 30
+    '-'  shift e prosecuzione allo stato 31
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 21 (expr)
+
+
+Stato 48
+
+   17 expr: expr . '+' expr
+   17     | expr '+' expr .
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 17 (expr)
+
+
+Stato 49
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   18     | expr '-' expr .
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    '*'  shift e prosecuzione allo stato 32
+    '/'  shift e prosecuzione allo stato 33
+
+    $default  riduzione con la regola 18 (expr)
+
+
+Stato 50
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   19     | expr '*' expr .
+   20     | expr . '/' expr
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    $default  riduzione con la regola 19 (expr)
+
+
+Stato 51
+
+   17 expr: expr . '+' expr
+   18     | expr . '-' expr
+   19     | expr . '*' expr
+   20     | expr . '/' expr
+   20     | expr '/' expr .
+   21     | expr . '<' expr
+   22     | expr . '>' expr
+   23     | expr . GE expr
+   24     | expr . LE expr
+   25     | expr . NE expr
+   26     | expr . EQ expr
+
+    $default  riduzione con la regola 20 (expr)
+
+
+Stato 52
+
+    7 stmt: VARIABLE '=' expr ';' .
+
+    $default  riduzione con la regola 7 (stmt)
+
+
+Stato 53
+
+    8 stmt: WHILE '(' expr ')' . stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+
+    stmt  prosecuzione allo stato 55
+    expr  prosecuzione allo stato 14
+
+
+Stato 54
+
+    9 stmt: IF '(' expr ')' . stmt
+   10     | IF '(' expr ')' . stmt ELSE stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+
+    stmt  prosecuzione allo stato 56
+    expr  prosecuzione allo stato 14
+
+
+Stato 55
+
+    8 stmt: WHILE '(' expr ')' stmt .
+
+    $default  riduzione con la regola 8 (stmt)
+
+
+Stato 56
+
+    9 stmt: IF '(' expr ')' stmt .
+   10     | IF '(' expr ')' stmt . ELSE stmt
+
+    ELSE  shift e prosecuzione allo stato 57
+
+    $default  riduzione con la regola 9 (stmt)
+
+
+Stato 57
+
+   10 stmt: IF '(' expr ')' stmt ELSE . stmt
+
+    INTEGER   shift e prosecuzione allo stato 4
+    VARIABLE  shift e prosecuzione allo stato 5
+    WHILE     shift e prosecuzione allo stato 6
+    IF        shift e prosecuzione allo stato 7
+    PRINT     shift e prosecuzione allo stato 8
+    '-'       shift e prosecuzione allo stato 9
+    ';'       shift e prosecuzione allo stato 10
+    '('       shift e prosecuzione allo stato 11
+    '{'       shift e prosecuzione allo stato 12
+
+    stmt  prosecuzione allo stato 58
+    expr  prosecuzione allo stato 14
+
+
+Stato 58
+
+   10 stmt: IF '(' expr ')' stmt ELSE stmt .
+
+    $default  riduzione con la regola 10 (stmt)
