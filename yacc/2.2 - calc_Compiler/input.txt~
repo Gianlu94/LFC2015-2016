@@ -1,6 +1,6 @@
 x=0;
 
-if(x){
-	PRINT x
+if (x){
+	PRINT x;
 }
 

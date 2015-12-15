@@ -46,7 +46,6 @@
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> stmt expr stmt_list
 
 %%
 
