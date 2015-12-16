@@ -5,6 +5,7 @@
 %{
     #include <stdio.h>
     //#include <stdbool.h> this is not feasible is all the possible destination system - it fits with C99..
+    #include "logger.h"
     #include "header.h"
 
     //varibales to read input files
