@@ -2,11 +2,9 @@
 LEX = lex
 YACC = yacc -d
 
-
 CC = cc
 
 interpreter: y.tab.o lex.yy.o logger.o functions.o interpreter.o
-	#$(CC) -o interpreter y.tab.o lex.yy.o functions.o interpreter.o -ll -lm
 	$(CC) -o $@ y.tab.o lex.yy.o logger.o functions.o interpreter.o #-ll -lm
 
 interpreter.o: interpreter.c

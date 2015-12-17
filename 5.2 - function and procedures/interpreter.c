@@ -3,6 +3,7 @@
 #include <string.h>
 #include "header.h"
 #include "y.tab.h"
+#include "logger.h"
 
 void yyerror(char * );
 
@@ -12,6 +13,7 @@ void executeProgram(program * program, symrec ** symTable, list * routineList){
 }
 
 data eval_constants(constant c, symrec ** symTable){
+  write_log(NULL,"evaluating const");
   data res;
   basic b;
   b.type=c.type;
@@ -41,6 +43,8 @@ data eval_expr(node expr, symrec ** symTable,list * routineList){
   switch (expr.operator) {
     case SEMICOLON:
       {
+        write_log(NULL,"statement ;");
+
         //c'è sempre uno statement da valutare
         //valuto il primo
         eval(expr.op[0],symTable,routineList);
@@ -52,6 +56,7 @@ data eval_expr(node expr, symrec ** symTable,list * routineList){
       break;
     case PRINT:
         { //statement
+          write_log(NULL,"print");
 
           data e = eval(expr.op[0], symTable,routineList);
           printData(e);
@@ -60,6 +65,7 @@ data eval_expr(node expr, symrec ** symTable,list * routineList){
         }
       break;
     case EQUALS: //statement
+          write_log(NULL,"equals");
           symrec * s = getSymbolFromIdentifier(expr.op[0]->value.id,symTable);
           //check if the variable is function
           routine * r = getRoutine(expr.op[0]->value.id.name, routineList);
@@ -70,12 +76,15 @@ data eval_expr(node expr, symrec ** symTable,list * routineList){
           //else
           data res;
           if(s!=NULL){
+            write_log(NULL,"è una variable");
 
             res = assignment(s,expr.op[1],symTable,routineList);
           }
           if(r!=NULL){
+            write_log(NULL,"è una procedura/funzione");
             //TODO check if this is a function or a procedure
             res = r_assignment(r,expr.op[1], symTable,routineList);
+            //printf("after r_assignment r->returnValue %p\n", r->returnValue);
           }
           return res;
           break;
@@ -245,18 +254,22 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
   }
   switch (p->type) {
     case const_type:
+      //write_log(NULL,"calling eval_const");
       return eval_constants(p->value.con, symTable);
       break;
     case identifier_type:
+      //write_log(NULL,"calling eval_identifier");
       return eval_identifier(p->value.id,symTable,routineList);
       break;
     case expression_type:
+      //write_log(NULL,"calling eval_expr");
       return eval_expr(p->value.expr,symTable,routineList);
       break;
     case routine_type:
       return eval_routine(p->value.routine,symTable,routineList);
       break;
     case identifier_declaration:
+        //write_log(NULL,"calling eval_identifier_declaration");
         return eval_identifier_declaration(p->value.dec,symTable,routineList);
       break;
     default:
@@ -269,6 +282,8 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
 
 
  void printData(data d){
+  write_log(NULL,"printData init");
+  //printf("data d %d\n", d.b.i);
   switch (d.type) {
     case basic_dataType:
         {
@@ -307,19 +322,24 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
  }
  //==========================
  int addInt(int n, int m) {
+   write_log(NULL,"addInt");
 
      return n+m;
  }
  int subInt(int n, int m) {
+   write_log(NULL,"subInt");
 
      return n-m;
  }
  int mulInt(int n, int m) {
+   write_log(NULL,"mulInt");
 
      return n*m;
  }
  //unexpected ceiling
  int divInt(int n, int m) {
+   write_log(NULL,"divInt");
+
      return n/m;
  }
  //==========================
@@ -354,36 +374,44 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
      return (n!=m)?true:false;
  }
  bool eqFloat(float n, float m) {
+   write_log(NULL,"eqFloat");
 
      return (n==m)?true:false;
  }
  //==========================
 
  bool ltInt(int n, int m) {
+   write_log(NULL,"ltInt");
 
      return (n<m)?true:false;
  }
  bool gtInt(int n, int m) {
+   write_log(NULL,"gtInt");
 
      return (n>m)?true:false;
  }
  bool geInt(int n, int m) {
+   write_log(NULL,"geInt");
 
      return (n>=m)?true:false;
  }
  bool leInt(int n, int m) {
+   write_log(NULL,"leInt");
 
      return (n<=m)?true:false;
  }
  bool neInt(int n, int m) {
+   write_log(NULL,"neInt");
 
      return (n!=m)?true:false;
  }
  bool eqInt(int n, int m) {
+     write_log(NULL,"eqInt");
      return (n==m)?true:false;
  }
  //==========================
  bool eqBool(bool n, bool m) {
+    write_log(NULL,"eqBool");
 
      return (n==m)?true:false;
  }
@@ -531,7 +559,7 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
          }
          break;
        case NE :
-          {
+          {write_log(NULL,"NOT EQUALS");
            switch (e1.b.type) {
              case basic_int_value:funBoolIntPrt = neInt;break;
              case basic_float_value:funBoolFloatPrt = neFloat;break;
@@ -549,6 +577,7 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
          break;
        case EQ :
         {
+          write_log(NULL,"EQUALS");
           switch (e1.b.type) {
            case basic_int_value:funBoolIntPrt = eqInt;break;
            case basic_float_value:funBoolFloatPrt = eqFloat;break;
@@ -579,6 +608,7 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
       case basic_int_value:
         {
           if(funIntPtr!=NULL){
+            write_log(NULL,"evaluating OPERATion..");
 
             if(oper == EQUALS){
               //il risultato è booleano
@@ -590,6 +620,7 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
             }
           }else if(funBoolIntPrt!=NULL){
             //evaluating something like int < int or int == int
+            write_log(NULL,"evaluating boolean comparison..");
             res.b.type = basic_boolean_value;
             res.b.b = funBoolIntPrt(e1.b.i, e2.b.i);
           }else{
@@ -668,11 +699,13 @@ data eval(treeNode *p, symrec ** symTable,list * routineList) {
  }
 
 data eval_identifier_declaration(declarationNode decl, symrec ** symbolTable,list * routineList){
+  write_log(NULL,"adding identifier");
     data res;
     res.type = no_op;
     symrec * s;
     s=getSym(decl.name, *symbolTable);
     if(s==0){
+      write_log(NULL,logString("symbol %s not found", decl.name));
       s = createSym(decl.name, symbolTable);
       //insert
       switch (decl.t->dt) {
@@ -723,6 +756,7 @@ data eval_identifier_declaration(declarationNode decl, symrec ** symbolTable,lis
 }
 
 data spec_assignment(symrec * variable, data e, symrec ** symTable ,list * routineList){
+  write_log(NULL,"spec assignment");
   if(variable == NULL){
     yyerror("variable not found");
     exit(NO_SUCH_VARIABLE);
@@ -770,6 +804,7 @@ return res;
 
 
 data assignment(symrec * variable, treeNode * expr, symrec ** table, list * routineList){
+    write_log(NULL,"assignment");
     if(variable == NULL){
       yyerror("variable not found");
       exit(NO_SUCH_VARIABLE);
@@ -820,6 +855,7 @@ data assignment(symrec * variable, treeNode * expr, symrec ** table, list * rout
 }
 //changes the value pointed by r return value
 data r_assignment(routine * r, treeNode * expr, symrec ** symTable,list * routineList){
+  write_log(NULL,"assignment");
   if(r == NULL){
     yyerror("routine not found");
     exit(NO_SUCH_VARIABLE);
@@ -827,7 +863,13 @@ data r_assignment(routine * r, treeNode * expr, symrec ** symTable,list * routin
 
   data e = eval(expr, symTable,routineList);
   //typechecking happens here
+  //control evaluate the given expression and check if has the same type of r return type
+  //questo devi farlo diventare un data * con malloc.. se no alla chiusura dello stack
+  //se lo mangia via lo shift dello stack.. mentre se è un data * mi rimane in memoria
   r->returnValue = dataToDataPointer(e);
+  //printf("&e %p\n", &e);
+  //printf("ret %p\n", r->returnValue);
+  //printf("%d\n", e.b.i);
   data res;
   res.type = no_op; //is the last action that should be executed in the program
   return res;
@@ -840,6 +882,7 @@ data r_assignment(routine * r, treeNode * expr, symrec ** symTable,list * routin
 prende in input l'identifier node e restituisce il suo valore
 */
 data eval_identifier(identifier identifierNode, symrec ** symbolTable,list * routineList){
+  write_log(NULL,"eval_identifier");
   //TODO: place a check for not initialized values
   data res;
   symrec * s = getSym(identifierNode.name, *symbolTable);
@@ -890,6 +933,7 @@ data eval_identifier(identifier identifierNode, symrec ** symbolTable,list * rou
 }
 
  data eval_routine(routineNode rout, symrec ** symTable, list * routineList){
+   write_log(NULL, "eval_routine");
 
    data res;
    //recupera la routine e controlla se esiste
@@ -935,19 +979,26 @@ data eval_identifier(identifier identifierNode, symrec ** symbolTable,list * rou
      //cerca la var appena inserita e fai l'assignement
      identifier id; id.name = malloc(strlen(f->name)+1);
      strcpy(id.name,f->name);
+     write_log(NULL, "before symbol from identifier in function");
      symrec * tmp = getSymbolFromIdentifier(id,&rSymrec);
+     write_log(NULL, "before assignement in function");
      //eval expr in current env, then assign it
      data e = eval(a->expr, symTable,routineList);
      spec_assignment(tmp,e, &rSymrec, routineList);
    }
   //eventually with return res = eval...
   eval(r->statementList, &rSymrec,routineList);
+  write_log(NULL, "function executed");
 
   if(r->type == procedure){
+    write_log(NULL, "function was a procedure");
     res.type = no_op;
   }else{
     //qui cerca nella routine, nel suo return value il valore, puliscilo e resituicilo
     res = *r->returnValue;
+    //printf("in return * %p\n", r->returnValue);
+    //printf("%d\n", res.b.i);
+    write_log(NULL, "return value from function");
     r->returnValue = NULL;
   }
   return res;
