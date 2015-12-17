@@ -139,7 +139,7 @@ int checkArrayAcces(array * a, ref * r){
     }
     else{
       if(r == NULL){
-        printf("%s\n", "le peggio bestemmie");
+        printf("%s\n", "stato inconsistente, verificare la logica");
         exit(-2);
       }
       //tipo di base.. avrò un array che contiene un riferimento a basic**
