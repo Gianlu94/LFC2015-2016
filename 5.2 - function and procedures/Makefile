@@ -2,7 +2,7 @@
 LEX = lex
 YACC = yacc -d
 
-CC = cc
+CC = gcc	-std=gnu99
 
 interpreter: y.tab.o lex.yy.o logger.o functions.o interpreter.o
 	$(CC) -o $@ y.tab.o lex.yy.o logger.o functions.o interpreter.o #-ll -lm
